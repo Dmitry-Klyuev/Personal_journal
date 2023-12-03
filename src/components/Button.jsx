@@ -3,13 +3,13 @@ import styled from 'styled-components';
 
 export const Button = () => {
     return (
-        <StyledButton type='primary'>
+        <ButtonStyled type='primary'>
             Сохранить
-        </StyledButton>
+        </ButtonStyled>
     );
 };
 
-const StyledButton = styled.button`
+const ButtonStyled = styled.button`
   background-color: ${props => props.type === 'primary' ? '#312EB5' : 'red'};
   border: none;
   color: white;
