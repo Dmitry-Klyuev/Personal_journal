@@ -11,12 +11,14 @@ export const CardButton = ({ children }) => {
 };
 
 const Item = styled.div`
-  max-width: 362px;
   padding: 20px;
   background-color: rgba(255, 255, 255, 0.03);
   color: #fff;
   cursor: pointer;
   &:hover {
     background-color: rgba(255, 255, 255, 0.10);
+  }
+  &:active {
+    background-color: rgba(255, 255, 255, 0.20);
   }
 `;

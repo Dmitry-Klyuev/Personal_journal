@@ -1,9 +1,10 @@
 import styled from 'styled-components';
+import {FormData} from '../components/FormData.jsx';
 
 export const MainPanel = () => {
     return (
         <MainWrapper>
-            Main panel
+            <FormData/>
         </MainWrapper>
     );
 };

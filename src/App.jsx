@@ -23,5 +23,5 @@ export default App;
 const Wrapper = styled.div`
   display: flex;
   justify-content: space-between;
-padding: 30px 20px;
+  padding: 30px 0;
 `;

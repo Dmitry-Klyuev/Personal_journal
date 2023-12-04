@@ -14,4 +14,5 @@ export const JournalAddItem = () => {
 
 const JournalAddItemStyled = styled.div`
   text-align: center;
+  width: 100%;
 `;

@@ -1,10 +1,9 @@
-import React from 'react';
 import styled from 'styled-components';
 
-export const Button = () => {
+export const Button = ({children}) => {
     return (
         <ButtonStyled type='primary'>
-            Сохранить
+            {children}
         </ButtonStyled>
     );
 };
@@ -20,9 +19,11 @@ const ButtonStyled = styled.button`
   text-decoration: none;
   display: inline-block;
   font-size: 16px;
+
   &:hover {
     opacity: 0.8;
   }
+
   &:active {
     opacity: 0.6;
   }

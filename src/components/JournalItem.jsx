@@ -19,7 +19,7 @@ export const JournalItem = ({ title, description, date }) => {
 
 const Title = styled.h2`
   color: #FFF;
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 600;
   line-height: 28px;
 
