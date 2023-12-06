@@ -1,12 +1,11 @@
 import {Button} from './Button.jsx';
 import styled from 'styled-components';
 
-export const FormData = () => {
+export const JournalForm = ({addStateItem}) => {
     const addJournalItem = (e) => {
         e.preventDefault();
-        const formData = new FormData();
-        // const form = Object.fromEntries(formData);
-        console.log(formData);
+        const formData = Object.fromEntries(new FormData(e.target));
+        addStateItem(formData);
     };
 
     return (

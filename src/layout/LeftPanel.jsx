@@ -6,17 +6,15 @@ import {JournalItem} from '../components/JournalItem.jsx';
 import {JournalItems} from '../components/JournalItems.jsx';
 import styled from 'styled-components';
 
-export const LeftPanel = () => {
-    const data = [
-        {title: 'Подготовка к обновлению курсов', date: new Date(), description: 'Сегодня провёл весь день за...'},
-        {title: 'Поход в годы', date: new Date(), description: 'Думал, что очень много време...'},
-    ];
+export const LeftPanel = ({data}) => {
+
     return (
         <LeftPanelWrapper>
             <Header/>
             <JournalAddItem/>
             <JournalItems>
-                {data.map(el => <CardButton key={el.title}>
+                {data.length === 0 && <p>Записей нет</p>}
+                {data.length > 0 && data.map(el => <CardButton key={el.title}>
                         <JournalItem title={el.title} date={el.date} description={el.description}/>
                     </CardButton>
                 )}

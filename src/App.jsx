@@ -1,17 +1,22 @@
 import './App.css';
-import {Button} from './components/Button.jsx';
-import {JournalItem} from './components/JournalItem.jsx';
-import {CardButton} from './components/CardButton.jsx';
 import {LeftPanel} from './layout/LeftPanel.jsx';
 import {MainPanel} from './layout/MainPanel.jsx';
 import styled from 'styled-components';
+import {useState} from 'react';
 
 function App() {
+    const [state, setState] = useState([
+        {title: 'Подготовка к обновлению курсов', date: new Date(), description: 'Сегодня провёл весь день за...'},
+        {title: 'Поход в годы', date: new Date(), description: 'Думал, что очень много време...'},
+    ]);
 
+    const addStateItem = (data) => {
+        setState([...state, data]);
+    };
     return (
         <Wrapper>
-            <LeftPanel/>
-            <MainPanel/>
+            <LeftPanel data={state}/>
+            <MainPanel addStateItem={addStateItem}/>
             {/*<Button/>*/}
 
         </Wrapper>

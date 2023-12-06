@@ -1,10 +1,10 @@
 import styled from 'styled-components';
-import {FormData} from '../components/FormData.jsx';
+import { JournalForm } from '../components/JournalForm.jsx';
 
-export const MainPanel = () => {
+export const MainPanel = ({addStateItem}) => {
     return (
         <MainWrapper>
-            <FormData/>
+            <JournalForm addStateItem={addStateItem}/>
         </MainWrapper>
     );
 };
