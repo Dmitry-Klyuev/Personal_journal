@@ -12,20 +12,24 @@ export const JournalForm = ({addStateItem}) => {
     const addJournalItem = (e) => {
         e.preventDefault();
         const formData = Object.fromEntries(new FormData(e.target));
+        let isError = false;
         if (!formData.title) {
             setValidForm({...validForm, title: false});
-            return;
+            isError = true;
         }
         if (!formData.date) {
             setValidForm({...validForm, date: false});
-            return;
+            isError = true;
         }
         if (!formData.tag) {
             setValidForm({...validForm, tag: false});
-            return;
+            isError = true;
         }
         if (!formData.description) {
             setValidForm({...validForm, description: false});
+            isError = true;
+        }
+        if (isError) {
             return;
         }
         addStateItem(formData);
@@ -33,9 +37,9 @@ export const JournalForm = ({addStateItem}) => {
 
     return (
         <Form onSubmit={addJournalItem}>
-            <input type="text" name={'title'} props={validForm.title.toString()}/>
-            <input type="date" name={'date'}/>
-            <input type="text" name={'tag'}/>
+            <Input type="text" name={'title'} error={validForm.title}/>
+            <Input type="date" name={'date'} error={validForm.date}/>
+            <Input type="text" name={'tag'} error={validForm.tag}/>
             <textarea name="description" cols="30" rows="10"></textarea>
             <Button>Сохранить</Button>
         </Form>
@@ -47,7 +51,8 @@ const Form = styled.form`
   flex-direction: column;
   gap: 30px;
   align-items: flex-start;
-  &>input{
-    //border: ${props => props.props ? '1px solid red' : '1px solid #000'};
-  }
+`;
+
+const Input = styled.input`
+  border: ${props => props.error ? '' : '1px solid red'};
 `;
