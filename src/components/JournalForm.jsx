@@ -11,19 +11,11 @@ export const JournalForm = ({addStateItem}) => {
         description: false
     });
     // let isError = false;
-    if  (error){
-        setTimeout(()=>{
+    if (error) {
+        setTimeout(() => {
             setError(false);
-        },3000);
+        }, 3000);
     }
-    // const error = setTimeout(()=>{
-    //     if (isError){
-    //         isError=false;
-    //     }
-    //     if (!isError){
-    //         isError=true;
-    //     }
-    // }, 1000);
     const addJournalItem = (e) => {
         e.preventDefault();
         const formData = Object.fromEntries(new FormData(e.target));
@@ -45,7 +37,7 @@ export const JournalForm = ({addStateItem}) => {
             return setError(true);
         }
         if (error) {
-            return ;
+            return;
         }
         addStateItem(formData);
     };
@@ -53,10 +45,27 @@ export const JournalForm = ({addStateItem}) => {
     return (
         <>
             <Form onSubmit={addJournalItem}>
-                <Input type="text" name={'title'} />
-                <Input type="date" name={'date'} />
-                <Input type="text" name={'tag'} />
-                <textarea name="description" cols="30" rows="10"></textarea>
+                <InputWrapper>
+                    <Input type="text" name='title' id='title'/>
+                    <img src="/src/assets/archive.svg" alt="archive"/>
+                </InputWrapper>
+                <InputWrapper>
+                    <Label htmlFor="date">
+                        <img src="/src/assets/date.svg" alt=""/>
+                        <span>Дата</span>
+                    </Label>
+                    <Input type="date" name='date' id='date'/>
+                </InputWrapper>
+                <InputWrapper>
+                    <Label htmlFor="tag">
+                        <img src="/src/assets/tag.svg" alt="tag"/>
+                        Метки
+                    </Label>
+                    <Input type="text" name='tag' id='tag'/>
+                </InputWrapper>
+                <InputWrapper>
+                    <Textarea name="description" ></Textarea>
+                </InputWrapper>
                 <Button>Сохранить</Button>
             </Form>
             {error && <Error>Все поля обязательны для заполнения</Error>}
@@ -68,11 +77,23 @@ const Form = styled.form`
   display: flex;
   flex-direction: column;
   gap: 30px;
-  align-items: flex-start;
+  width: 100%;
 `;
 
 const Input = styled.input`
-  //border: ${({error}) => error === 'true' ? '1px solid red' : ''};
+  border: none;
+  background-color: transparent;
+  border-bottom: 2px solid #3f3f3f;
+  outline: none;
+  width: 80%;
+  &:focus {
+    border-bottom: 5px solid #3f3f3f;
+  }
+`;
+const InputWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 30px;
 `;
 
 const Error = styled.div`
@@ -91,5 +112,22 @@ const Error = styled.div`
       transform: translateX(0);
       opacity: 1;
     }
+  }
+`;
+
+const Label = styled.label`
+  display: flex;
+  gap: 20px;
+`;
+
+const Textarea = styled.textarea`
+  width: 100%;
+  min-height: 200px;
+  background-color: transparent;
+  border: none;
+  outline: none;
+  border-bottom: 2px solid #3f3f3f;
+  &:focus {
+    border-bottom: 5px solid #3f3f3f;
   }
 `;
