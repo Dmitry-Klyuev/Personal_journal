@@ -1,40 +1,43 @@
 import {Button} from './Button.jsx';
 import styled from 'styled-components';
-import {useState} from 'react';
+import {useEffect, useReducer, useState} from 'react';
+import {INITIAL_STATE, journalState, resetValidity, validTitle} from './JournalForm.state.js';
 
 export const JournalForm = ({addStateItem}) => {
+    const [state, dispatch] = useReducer(journalState, INITIAL_STATE);
+    const {isValid} = state;
     const [error, setError] = useState(false);
-    const [validForm, setValidForm] = useState({
-        title: false,
-        date: false,
-        tag: false,
-        description: false
-    });
-    // let isError = false;
-    if (error) {
-        setTimeout(() => {
-            setError(false);
-        }, 3000);
-    }
+
+    useEffect(() => {
+        if (!state.validForm.date || !state.validForm.title || !state.validForm.tag || !state.validForm.description) {
+            setTimeout(() => {
+                dispatch(resetValidity());
+            }, 3000);
+        }
+    }, [isValid]);
+
     const addJournalItem = (e) => {
         e.preventDefault();
         const formData = Object.fromEntries(new FormData(e.target));
 
         if (!formData.title.trim()) {
-            setValidForm({...validForm, title: true});
-            return setError(true);
+            dispatch(validTitle());
+            // return setError(true);
         }
         if (!formData.date.trim()) {
-            setValidForm({...validForm, date: true});
-            return setError(true);
+            // setValidForm({...validForm, date: true});
+            return dispatch(validTitle());
+
         }
         if (!formData.tag.trim()) {
-            setValidForm({...validForm, tag: true});
-            return setError(true);
+            // setValidForm({...validForm, tag: true});
+            return dispatch(validTitle());
+
         }
         if (!formData.description.trim()) {
-            setValidForm({...validForm, description: true});
-            return setError(true);
+            // setValidForm({...validForm, description: true});
+            return dispatch(validTitle(false));
+
         }
         if (error) {
             return;
@@ -64,11 +67,11 @@ export const JournalForm = ({addStateItem}) => {
                     <Input type="text" name='tag' id='tag'/>
                 </InputWrapper>
                 <InputWrapper>
-                    <Textarea name="description" ></Textarea>
+                    <Textarea name="description"></Textarea>
                 </InputWrapper>
                 <Button>Сохранить</Button>
             </Form>
-            {error && <Error>Все поля обязательны для заполнения</Error>}
+            {!(state.validForm.title && state.validForm.date && state.validForm.tag && state.validForm.description) && <Error>Все поля обязательны для заполнения</Error>}
         </>
     );
 };
@@ -86,6 +89,7 @@ const Input = styled.input`
   border-bottom: 2px solid #3f3f3f;
   outline: none;
   width: 80%;
+
   &:focus {
     border-bottom: 5px solid #3f3f3f;
   }
@@ -127,6 +131,7 @@ const Textarea = styled.textarea`
   border: none;
   outline: none;
   border-bottom: 2px solid #3f3f3f;
+
   &:focus {
     border-bottom: 5px solid #3f3f3f;
   }

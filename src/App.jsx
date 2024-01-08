@@ -6,6 +6,7 @@ import {useEffect, useState} from 'react';
 
 function App() {
     const [state, setState] = useState([]);
+    console.log(state);
 
     const addStateItem = (data) => {
         setState([...state, data]);
@@ -14,6 +15,9 @@ function App() {
         const data = localStorage.getItem('data');
         if (data.length){
             setState(JSON.parse(data));
+        }
+        if (!data){
+            localStorage.setItem('data', JSON.stringify([]));
         }
     }, []);
 
