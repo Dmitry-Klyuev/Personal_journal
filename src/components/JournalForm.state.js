@@ -1,7 +1,6 @@
 
 export const INITIAL_STATE = {
     valuesForm: {
-      post: undefined,
       title: undefined,
       date: undefined,
       tag: undefined,
@@ -9,7 +8,6 @@ export const INITIAL_STATE = {
     },
     formReadyToSend: false,
     validForm: {
-        post: true,
         title: true,
         date: true,
         tag: true,
@@ -20,9 +18,26 @@ export const INITIAL_STATE = {
 export const journalState = (state = INITIAL_STATE, action) => {
     switch (action.type) {
         case 'RESET_VALIDITY':
-          return {...state, validForm: INITIAL_STATE.validForm};
+          return {...state, validForm: {...INITIAL_STATE.validForm}};
         case 'VALID_TITLE':
             return {...state, validForm: {...state.validForm, title: action.payload}};
+            case 'SUBMIT':{
+                const titleValidity = action.payload.title?.trim();
+                const dateValidity = action.payload.date;
+                const tagValidity = action.payload.tag?.trim();
+                const descriptionValidity = action.payload.description?.trim();
+                return {
+                    ...state,
+                    valuesForm: action.payload,
+                    validForm: {
+                        title: titleValidity,
+                        date: dateValidity,
+                        tag: tagValidity,
+                        description: descriptionValidity
+                    },
+                    formReadyToSend: titleValidity && dateValidity && tagValidity && descriptionValidity
+                };
+            }
     }
 };
 
@@ -32,4 +47,7 @@ export const resetValidity = () => {
 };
 export const validTitle = (bool) => {
     return {type: 'VALID_TITLE', payload: bool};
+};
+export const submitForm = (payload) => {
+    return {type: 'SUBMIT', payload};
 };

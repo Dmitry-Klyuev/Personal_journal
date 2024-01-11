@@ -1,12 +1,11 @@
 import {Button} from './Button.jsx';
 import styled from 'styled-components';
-import {useEffect, useReducer, useState} from 'react';
-import {INITIAL_STATE, journalState, resetValidity, validTitle} from './JournalForm.state.js';
+import {useEffect, useReducer} from 'react';
+import {INITIAL_STATE, journalState, resetValidity} from './JournalForm.state.js';
 
 export const JournalForm = ({addStateItem}) => {
     const [state, dispatch] = useReducer(journalState, INITIAL_STATE);
-    const {isValid} = state;
-    const [error, setError] = useState(false);
+    const {validForm, formReadyToSend, valuesForm} = state;
 
     useEffect(() => {
         if (!state.validForm.date || !state.validForm.title || !state.validForm.tag || !state.validForm.description) {
@@ -14,35 +13,18 @@ export const JournalForm = ({addStateItem}) => {
                 dispatch(resetValidity());
             }, 3000);
         }
-    }, [isValid]);
+    }, [validForm]);
+
+    useEffect(() => {
+        if (formReadyToSend) {
+            addStateItem(valuesForm);
+        }
+    }, [formReadyToSend]);
 
     const addJournalItem = (e) => {
         e.preventDefault();
         const formData = Object.fromEntries(new FormData(e.target));
-
-        if (!formData.title.trim()) {
-            dispatch(validTitle());
-            // return setError(true);
-        }
-        if (!formData.date.trim()) {
-            // setValidForm({...validForm, date: true});
-            return dispatch(validTitle());
-
-        }
-        if (!formData.tag.trim()) {
-            // setValidForm({...validForm, tag: true});
-            return dispatch(validTitle());
-
-        }
-        if (!formData.description.trim()) {
-            // setValidForm({...validForm, description: true});
-            return dispatch(validTitle(false));
-
-        }
-        if (error) {
-            return;
-        }
-        addStateItem(formData);
+        dispatch({'type': 'SUBMIT', payload: formData});
     };
 
     return (
@@ -71,7 +53,8 @@ export const JournalForm = ({addStateItem}) => {
                 </InputWrapper>
                 <Button>Сохранить</Button>
             </Form>
-            {!(state.validForm.title && state.validForm.date && state.validForm.tag && state.validForm.description) && <Error>Все поля обязательны для заполнения</Error>}
+            {!(state.validForm.title && state.validForm.date && state.validForm.tag && state.validForm.description) &&
+                <Error>Все поля обязательны для заполнения</Error>}
         </>
     );
 };
