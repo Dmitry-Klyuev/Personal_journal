@@ -1,10 +1,9 @@
-
 export const INITIAL_STATE = {
     valuesForm: {
-      title: undefined,
-      date: undefined,
-      tag: undefined,
-      description: undefined
+        title: '',
+        date: '',
+        tag: '',
+        description: ''
     },
     formReadyToSend: false,
     validForm: {
@@ -18,26 +17,34 @@ export const INITIAL_STATE = {
 export const journalState = (state = INITIAL_STATE, action) => {
     switch (action.type) {
         case 'RESET_VALIDITY':
-          return {...state, validForm: {...INITIAL_STATE.validForm}};
+            return {...state, validForm: {...INITIAL_STATE.validForm}};
         case 'VALID_TITLE':
             return {...state, validForm: {...state.validForm, title: action.payload}};
-            case 'SUBMIT':{
-                const titleValidity = action.payload.title?.trim();
-                const dateValidity = action.payload.date;
-                const tagValidity = action.payload.tag?.trim();
-                const descriptionValidity = action.payload.description?.trim();
-                return {
-                    ...state,
-                    valuesForm: action.payload,
-                    validForm: {
-                        title: titleValidity,
-                        date: dateValidity,
-                        tag: tagValidity,
-                        description: descriptionValidity
-                    },
-                    formReadyToSend: titleValidity && dateValidity && tagValidity && descriptionValidity
-                };
-            }
+        case 'SUBMIT': {
+            const titleValidity = action.payload.title?.trim();
+            const dateValidity = action.payload.date;
+            const tagValidity = action.payload.tag?.trim();
+            const descriptionValidity = action.payload.description?.trim();
+            return {
+                ...state,
+                valuesForm: action.payload,
+                validForm: {
+                    title: titleValidity,
+                    date: dateValidity,
+                    tag: tagValidity,
+                    description: descriptionValidity
+                },
+                formReadyToSend: titleValidity && dateValidity && tagValidity && descriptionValidity
+            };
+        }
+        case 'CHANGE_VALUE': {
+            return {...state, valuesForm: {...state.valuesForm, ...action.payload}};
+        }
+        case 'CLEAR_VALUE': {
+            return {...state, valuesForm: {...INITIAL_STATE.valuesForm}};
+        }
+        default:
+            return state;
     }
 };
 
