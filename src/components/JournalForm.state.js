@@ -41,7 +41,7 @@ export const journalState = (state = INITIAL_STATE, action) => {
             return {...state, valuesForm: {...state.valuesForm, ...action.payload}};
         }
         case 'CLEAR_VALUE': {
-            return {...state, valuesForm: {...INITIAL_STATE.valuesForm}};
+            return {...state, valuesForm: {...INITIAL_STATE.valuesForm}, formReadyToSend: false};
         }
         default:
             return state;
