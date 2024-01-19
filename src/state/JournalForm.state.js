@@ -1,5 +1,6 @@
 export const INITIAL_STATE = {
     valuesForm: {
+        id: '',
         title: '',
         date: '',
         tag: '',

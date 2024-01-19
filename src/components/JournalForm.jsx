@@ -1,9 +1,11 @@
 import {Button} from './Button.jsx';
 import styled from 'styled-components';
-import {useEffect, useReducer, useRef} from 'react';
-import {INITIAL_STATE, journalState, resetValidity} from './JournalForm.state.js';
+import {useContext, useEffect, useReducer, useRef} from 'react';
+import {INITIAL_STATE, journalState, resetValidity} from '../state/JournalForm.state.js';
+import {UserContext} from '../state/User.context.jsx';
 
 export const JournalForm = ({addStateItem}) => {
+    const { userId } = useContext(UserContext);
     const [state, dispatch] = useReducer(journalState, INITIAL_STATE);
     const {validForm, formReadyToSend, valuesForm} = state;
     const titleRef = useRef();
@@ -47,7 +49,7 @@ export const JournalForm = ({addStateItem}) => {
     const addJournalItem = (e) => {
         e.preventDefault();
         const formData = Object.fromEntries(new FormData(e.target));
-        dispatch({'type': 'SUBMIT', payload: formData});
+        dispatch({type: 'SUBMIT', payload: {id: +userId, ...formData}});
     };
     const changeValue = (e) => {
             dispatch({type: 'CHANGE_VALUE', payload: {[e.target.name]: e.target.value}});

@@ -6,7 +6,6 @@ import {useEffect, useState} from 'react';
 
 function App() {
     const [state, setState] = useState([]);
-    console.log(state);
 
     const addStateItem = (data) => {
         setState([...state, data]);
