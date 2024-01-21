@@ -1,8 +1,9 @@
-import React from 'react';
+import {useReducer} from 'react';
 import styled from 'styled-components';
+import {INITIAL_STATE, journalState} from '../state/JournalForm.state.js';
 
 // eslint-disable-next-line react/prop-types
-export const CardButton = ({ children }) => {
+export const CardButton = ({ children, ...props}) => {
     return (
         <Item>
             {children}

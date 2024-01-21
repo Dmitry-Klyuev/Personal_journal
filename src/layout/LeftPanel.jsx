@@ -11,7 +11,6 @@ import {UserContext} from '../state/User.context.jsx';
 export const LeftPanel = ({data}) => {
     const {userId} = useContext(UserContext);
 
-
     return (
         <LeftPanelWrapper>
             <Header/>
@@ -21,8 +20,16 @@ export const LeftPanel = ({data}) => {
                 {data === 0 && <p>Записей нет</p>}
                 {data.length > 0 && data
                     .filter(el => el.id === +userId)
-                    .map(el => <CardButton key={el.title}>
-                            <JournalItem title={el.title} date={el.date} description={el.description}/>
+                    .map(el => <CardButton key={el.title}
+                                           title={el.title}
+                                           date={el.date}
+                                           description={el.description}
+                                           tag={el.tag}
+                        >
+                            <JournalItem title={el.title}
+                                         date={el.date}
+                                         description={el.description}
+                            />
                         </CardButton>
                     )}
             </JournalItems>
