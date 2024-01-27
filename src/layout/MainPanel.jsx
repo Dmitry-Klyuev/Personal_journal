@@ -1,10 +1,10 @@
 import styled from 'styled-components';
 import { JournalForm } from '../components/JournalForm.jsx';
 
-export const MainPanel = ({addStateItem}) => {
+export const MainPanel = ({ addStateItem, selectedItem }) => {
     return (
         <MainWrapper>
-            <JournalForm addStateItem={addStateItem}/>
+            <JournalForm addStateItem={addStateItem} selectedItem={selectedItem}/>
         </MainWrapper>
     );
 };

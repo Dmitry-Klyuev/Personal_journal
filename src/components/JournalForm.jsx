@@ -4,7 +4,7 @@ import {useContext, useEffect, useReducer, useRef} from 'react';
 import {INITIAL_STATE, journalState, resetValidity} from '../state/JournalForm.state.js';
 import {UserContext} from '../state/User.context.jsx';
 
-export const JournalForm = ({addStateItem}) => {
+export const JournalForm = ({ addStateItem, selectedItem }) => {
     const { userId } = useContext(UserContext);
     const [state, dispatch] = useReducer(journalState, INITIAL_STATE);
     const {validForm, formReadyToSend, valuesForm} = state;
@@ -12,6 +12,14 @@ export const JournalForm = ({addStateItem}) => {
     const dataRef = useRef();
     const tagRef = useRef();
     const descriptionRef = useRef();
+
+    useEffect(() => {
+        if (selectedItem){
+            dispatch({'type': 'CLEAR_VALUE'});
+        }
+        dispatch({type: 'CHANGE_VALUE', payload: {...selectedItem}});
+
+    }, [selectedItem]);
 
     const focusInput = (input) => {
         switch (true) {

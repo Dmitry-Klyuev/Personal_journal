@@ -8,23 +8,24 @@ import {ChangeUser} from '../components/ChangeUser.jsx';
 import {useContext} from 'react';
 import {UserContext} from '../state/User.context.jsx';
 
-export const LeftPanel = ({data}) => {
+export const LeftPanel = ({ data, setSelectedItem }) => {
     const {userId} = useContext(UserContext);
+
+    const cardClickHandler = (el) => {
+        setSelectedItem(el);
+    };
 
     return (
         <LeftPanelWrapper>
             <Header/>
             <ChangeUser/>
-            <JournalAddItem/>
+            <JournalAddItem onClick={()=> setSelectedItem({})}/>
             <JournalItems>
                 {data === 0 && <p>Записей нет</p>}
                 {data.length > 0 && data
                     .filter(el => el.id === +userId)
                     .map(el => <CardButton key={el.title}
-                                           title={el.title}
-                                           date={el.date}
-                                           description={el.description}
-                                           tag={el.tag}
+                                           onClick={() => cardClickHandler(el)}
                         >
                             <JournalItem title={el.title}
                                          date={el.date}

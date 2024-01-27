@@ -6,31 +6,43 @@ import {useEffect, useState} from 'react';
 
 function App() {
     const [state, setState] = useState([]);
+    const [selectedItem, setSelectedItem] = useState({});
+    console.log(state);
 
     const addStateItem = (data) => {
-        setState([...state, data]);
+        if (data.id) {
+            setState([...state, data]);
+        }
+        // setState([...state.map(el => {
+        //     if (el.id === data.id) {
+        //         return {
+        //             ...data
+        //         };
+        //     }
+        //     return el;
+        // })]);
+
+
     };
     useEffect(() => {
         const data = localStorage.getItem('data');
-        if (data.length){
-            setState(JSON.parse(data));
+        if (data) {
+            return setState(JSON.parse(data));
         }
-        if (!data){
+        if (!data) {
             localStorage.setItem('data', JSON.stringify([]));
         }
     }, []);
 
     useEffect(() => {
-        if (state.length){
+        if (state.length) {
             localStorage.setItem('data', JSON.stringify(state));
         }
     }, [state]);
     return (
         <Wrapper>
-            <LeftPanel data={state}/>
-            <MainPanel addStateItem={addStateItem}/>
-            {/*<Button/>*/}
-
+            <LeftPanel data={state} setSelectedItem={setSelectedItem}/>
+            <MainPanel addStateItem={addStateItem} selectedItem={selectedItem}/>
         </Wrapper>
     );
 }
